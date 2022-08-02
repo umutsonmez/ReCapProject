@@ -35,9 +35,9 @@ namespace Business.Concrete
            return _carDal.GetAll();
         }
 
-        public List<Car> GetById(int id)
+        public Car GetById(int id)
         {
-            throw new NotImplementedException();
+            return _carDal.Get(c => c.Id == id);
         }
 
         public List<Car> GetCarsByBrandId(int id)
@@ -54,5 +54,7 @@ namespace Business.Concrete
         {
             _carDal.Update(car);
         }
+
+       
     }
 }
