@@ -11,19 +11,30 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RentalsController : ControllerBase
+    public class CarImagesController : ControllerBase
     {
-        IRentalService _rentalService;
+        private ICarImageService _carImageService;
 
-        public RentalsController(IRentalService rentalService)
+        public CarImagesController(ICarImageService carImageService)
         {
-            _rentalService = rentalService;
+            _carImageService = carImageService;
         }
 
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
-            var result = _rentalService.GetAll();
+            var result = _carImageService.GetAll();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getbycarid")]
+        public IActionResult GetByCarId(int id)
+        {
+            var result = _carImageService.GetById(id);
             if (result.Success)
             {
                 return Ok(result);
@@ -34,18 +45,7 @@ namespace WebAPI.Controllers
         [HttpGet("getbyid")]
         public IActionResult GetById(int id)
         {
-            var result = _rentalService.GetById(id);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
-        }
-
-        [HttpGet("getrentaldetails")]
-        public IActionResult GetRentalDetails()
-        {
-            var result = _rentalService.GetRentalDetails();
+            var result = _carImageService.GetById(id);
             if (result.Success)
             {
                 return Ok(result);
@@ -54,34 +54,37 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(Rental rental)
+        public IActionResult Add([FromForm(Name = ("Image"))] IFormFile file, [FromForm] CarImage carImage)
         {
-            var result = _rentalService.Add(rental);
+            var result = _carImageService.Add(carImage,file);
             if (result.Success)
             {
                 return Ok(result);
             }
             return BadRequest(result);
         }
+
         [HttpDelete("delete")]
-        public IActionResult Delete(Rental rental)
+        public IActionResult Delete(CarImage carImage)
         {
-            var result = _rentalService.Delete(rental);
+            var result = _carImageService.Delete(carImage);
             if (result.Success)
             {
                 return Ok(result);
             }
             return BadRequest(result);
         }
+
         [HttpPut("update")]
-        public IActionResult Update(Rental rental)
+        public IActionResult Update(CarImage carImage, IFormFile file)
         {
-            var result = _rentalService.Update(rental);
+            var result = _carImageService.Update(carImage,file);
             if (result.Success)
             {
                 return Ok(result);
             }
             return BadRequest(result);
         }
+
     }
 }
