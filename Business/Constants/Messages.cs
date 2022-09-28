@@ -42,6 +42,9 @@ namespace Business.Constants
         public static string UserNotFound="Kullanıcı bulunamadı.";
         public static string UserRegistered="Üye kaydı yapıldı.";
         public static string AccessTokenCreated="Token oluşturuldu.";
-        
+        internal static string CardAlreadyExists;
+        internal static string CardAdded;
+        internal static string CardDeleted;
+        internal static string CardUpdated;
     }
 }
